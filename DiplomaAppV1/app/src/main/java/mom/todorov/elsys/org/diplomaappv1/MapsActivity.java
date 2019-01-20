@@ -88,7 +88,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         getDeviceLocation();
 
-
     }
 
     private void getLocationPermission() {
