@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DBConnect extends SQLiteOpenHelper {
 
-    private final static int    DB_VERSION = 10;
+    private final static int DB_VERSION = 10;
 
     public DBConnect(Context context) {
         super(context, "testDb.db", null,DB_VERSION);

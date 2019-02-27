@@ -1,13 +1,25 @@
 package mom.todorov.elsys.org.diplomaappv1;
 
-public class User {
-    public long userId;
-    public String username;
-    public String password;
+class User {
+    long userId;
+    String username;
+    String password;
+    long avatarId;
+    long roleId;
+    long experiencePoints;
+    long distanceWalked;
 
-    public User(long userId, String username, String password){
+    User(long userId, String username, String password){
         this.userId=userId;
         this.username=username;
         this.password=password;
+        this.avatarId = 1;
+        this.roleId = 2;
+        this.experiencePoints = 0;
+        this.distanceWalked = 0;
     }
 }
+
+
+
+
