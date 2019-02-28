@@ -9,6 +9,7 @@ class User {
     long experiencePoints;
     long distanceWalked;
 
+
     User(long userId, String username, String password){
         this.userId=userId;
         this.username=username;

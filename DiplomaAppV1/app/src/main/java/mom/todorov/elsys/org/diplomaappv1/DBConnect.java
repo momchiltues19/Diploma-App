@@ -54,6 +54,10 @@ public class DBConnect extends SQLiteOpenHelper {
     public User getUser (String username){
         String query = "Select userId, password from logins where username ='"+username+"'";
         User myUser = new User(0,username,"");
+        Award myAward = new Award(1, "as", "as", ".com");
+        UserAward myUserAward = new UserAward(1,1,1);
+        Mission myMission = new Mission(1, "as", "as", ".com");
+        UserMission myUserMisson = new UserMission(1,1,1);
         SQLiteDatabase database = this.getReadableDatabase();
         Cursor cursor = database.rawQuery(query, null);
         if (cursor.moveToFirst()){
