@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DBConnect extends SQLiteOpenHelper {
 
+    //use to detect upgrade/downgrade of the DB schema (source: https://stackoverflow.com/questions/22209046/example-and-explanation-android-studio-login-activity-template-generated-acti)
     private final static int DB_VERSION = 10;
 
     public DBConnect(Context context) {
@@ -16,20 +17,38 @@ public class DBConnect extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String query = "create table logins (userId Integer primary key autoincrement, "+
-                " username text, password text)";
-        db.execSQL(query);
+        String query1 = "create table Roles (roleId Intger primary key autoincrement," +
+                " rname text)";
+        db.execSQL(query1);
+
+        String query2 = "create table Avatars (avatarId Intger primary key autoincrement," +
+                " image text)";
+        db.execSQL(query2);
+
+        String query3 = "create table Users (userId Integer primary key autoincrement, " +
+                " username text, password text, avatarId Integer, roleId Integer, " +
+                " experiancePoint Integer, distanceWalked Integer)";
+        db.execSQL(query3);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         try{
-            System.out.println("UPGRADE DB oldVersion="+oldVersion+" - newVersion="+newVersion);
+            System.out.println("UPGRADE DB from " + oldVersion + " to " + newVersion);
             onCreate(db);
             if (oldVersion<10){
-                String query = "create table logins (userId Integer primary key autoincrement, "+
-                        " username text, password text)";
-                db.execSQL(query);
+                String query1 = "create table Roles (roleId Intger primary key autoincrement," +
+                        " rName text)";
+                db.execSQL(query1);
+
+                String query2 = "create table Avatars (avatarId Intger primary key autoincrement," +
+                        " image text)";
+                db.execSQL(query2);
+
+                String query3 = "create table Users (userId Integer primary key autoincrement, " +
+                        " username text, password text, avatarId Integer, roleId Integer, " +
+                        " experiencePoints Integer, distanceWalked Integer)";
+                db.execSQL(query3);
             }
         }
         catch (Exception e){e.printStackTrace();}
@@ -38,7 +57,7 @@ public class DBConnect extends SQLiteOpenHelper {
     @Override
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // super.onDowngrade(db, oldVersion, newVersion);
-        System.out.println("DOWNGRADE DB oldVersion="+oldVersion+" - newVersion="+newVersion);
+        System.out.println("DOWNGRADE DB from " + oldVersion + " to " + newVersion);
     }
 
     public User insertUser (User queryValues){
@@ -46,24 +65,30 @@ public class DBConnect extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put("username", queryValues.username);
         values.put("password", queryValues.password);
-        queryValues.userId=database.insert("logins", null, values);
+        values.put("avatarId", queryValues.avatarId);
+        values.put("roleId", queryValues.roleId);
+        values.put("experiencePoints", queryValues.experiencePoints);
+        values.put("distanceWalked", queryValues.distanceWalked);
+        queryValues.userId = database.insert("Users", null, values);
         database.close();
         return queryValues;
     }
 
+    //TODO add updateUserPassword
+
     public User getUser (String username){
-        String query = "Select userId, password from logins where username ='"+username+"'";
+        String query = "Select userId, password, avatarId, roleId, experiencePoints, distanceWalked from Users where username ='"+username+"'";
         User myUser = new User(0,username,"");
-        Award myAward = new Award(1, "as", "as", ".com");
-        UserAward myUserAward = new UserAward(1,1,1);
-        Mission myMission = new Mission(1, "as", "as", ".com");
-        UserMission myUserMisson = new UserMission(1,1,1);
         SQLiteDatabase database = this.getReadableDatabase();
         Cursor cursor = database.rawQuery(query, null);
         if (cursor.moveToFirst()){
             do {
-                myUser.userId=cursor.getLong(0);
-                myUser.password=cursor.getString(1);
+                myUser.userId = cursor.getLong(0);
+                myUser.password = cursor.getString(1);
+                myUser.avatarId = cursor.getLong(2);
+                myUser.roleId = cursor.getLong(3);
+                myUser.experiencePoints = cursor.getLong(4);
+                myUser.distanceWalked = cursor.getLong(5);
             } while (cursor.moveToNext());
         }
         return myUser;
