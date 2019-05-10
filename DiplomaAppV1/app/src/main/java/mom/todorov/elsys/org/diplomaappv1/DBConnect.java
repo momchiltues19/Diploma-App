@@ -17,12 +17,12 @@ public class DBConnect extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String query1 = "create table Roles (roleId Intger primary key autoincrement," +
+        String query1 = "create table Roles (roleId Integer primary key autoincrement," +
                 " rname text)";
         db.execSQL(query1);
 
-        String query2 = "create table Avatars (avatarId Intger primary key autoincrement," +
-                " image text)";
+        String query2 = "create table Avatars (avatarId Integer primary key autoincrement," +
+                " imageLink text)";
         db.execSQL(query2);
 
         String query3 = "create table Users (userId Integer primary key autoincrement, " +
@@ -37,11 +37,11 @@ public class DBConnect extends SQLiteOpenHelper {
             System.out.println("UPGRADE DB from " + oldVersion + " to " + newVersion);
             onCreate(db);
             if (oldVersion<10){
-                String query1 = "create table Roles (roleId Intger primary key autoincrement," +
+                String query1 = "create table Roles (roleId Integer primary key autoincrement," +
                         " rName text)";
                 db.execSQL(query1);
 
-                String query2 = "create table Avatars (avatarId Intger primary key autoincrement," +
+                String query2 = "create table Avatars (avatarId Integer primary key autoincrement," +
                         " image text)";
                 db.execSQL(query2);
 
@@ -65,10 +65,10 @@ public class DBConnect extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put("username", queryValues.username);
         values.put("password", queryValues.password);
-        values.put("avatarId", queryValues.avatarId);
-        values.put("roleId", queryValues.roleId);
-        values.put("experiencePoints", queryValues.experiencePoints);
-        values.put("distanceWalked", queryValues.distanceWalked);
+        //values.put("avatarId", queryValues.avatarId);
+        //values.put("roleId", queryValues.roleId);
+        //values.put("experiencePoints", queryValues.experiencePoints);
+        //values.put("distanceWalked", queryValues.distanceWalked);
         queryValues.userId = database.insert("Users", null, values);
         database.close();
         return queryValues;
@@ -77,7 +77,7 @@ public class DBConnect extends SQLiteOpenHelper {
     //TODO add updateUserPassword
 
     public User getUser (String username){
-        String query = "Select userId, password, avatarId, roleId, experiencePoints, distanceWalked from Users where username ='"+username+"'";
+        String query = "Select userId, password from Users where username ='"+username+"'";
         User myUser = new User(0,username,"");
         SQLiteDatabase database = this.getReadableDatabase();
         Cursor cursor = database.rawQuery(query, null);
@@ -85,12 +85,35 @@ public class DBConnect extends SQLiteOpenHelper {
             do {
                 myUser.userId = cursor.getLong(0);
                 myUser.password = cursor.getString(1);
-                myUser.avatarId = cursor.getLong(2);
-                myUser.roleId = cursor.getLong(3);
-                myUser.experiencePoints = cursor.getLong(4);
-                myUser.distanceWalked = cursor.getLong(5);
+                //myUser.avatarId = cursor.getLong(2);
+                //myUser.roleId = cursor.getLong(3);
+                //myUser.experiencePoints = cursor.getLong(4);
+                //myUser.distanceWalked = cursor.getLong(5);
             } while (cursor.moveToNext());
         }
         return myUser;
+    }
+
+    public Avatar insertAvatar (Avatar queryValues){
+        SQLiteDatabase database = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("imageLink", queryValues.imageLink);
+        queryValues.avatarId = database.insert("Avatars", null, values);
+        database.close();
+        return queryValues;
+    }
+
+    public Avatar getAvatar (String username){
+        String query = "Select Avatars.avatarId, imageLink from Avatars left join Users on Avatars.avatarId = Users.avatarId where username ='"+username+"'";
+        Avatar myAvatar = new Avatar(0,"");
+        SQLiteDatabase database = this.getReadableDatabase();
+        Cursor cursor = database.rawQuery(query, null);
+        if (cursor.moveToFirst()){
+            do {
+                myAvatar.avatarId = cursor.getLong(0);
+                myAvatar.imageLink = cursor.getString(1);
+            } while (cursor.moveToNext());
+        }
+        return myAvatar;
     }
 }

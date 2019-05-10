@@ -14,7 +14,7 @@ class User {
         this.userId=userId;
         this.username=username;
         this.password=password;
-        this.avatarId = 1;
+        this.avatarId = 13;
         this.roleId = 2;
         this.experiencePoints = 0;
         this.distanceWalked = 0;
