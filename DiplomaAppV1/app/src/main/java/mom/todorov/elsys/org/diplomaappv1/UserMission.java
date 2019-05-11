@@ -5,8 +5,8 @@ public class UserMission {
     long userId;
     long missionId;
 
-    UserMission(long userAwardId, long userId, long missionId) {
-        this.userMissionId = userAwardId;
+    UserMission(long userMissionId, long userId, long missionId) {
+        this.userMissionId = userMissionId;
         this.userId = userId;
         this.missionId = missionId;
     }

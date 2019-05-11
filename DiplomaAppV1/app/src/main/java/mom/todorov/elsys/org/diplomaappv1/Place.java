@@ -5,7 +5,7 @@ public class Place {
     String placeName;
     String description;
     String imageLink;
-    int level;
+    long level;
     long typeId;
     String coordinates;
 

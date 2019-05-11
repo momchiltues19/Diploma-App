@@ -17,18 +17,31 @@ public class DBConnect extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String query1 = "create table Roles (roleId Integer primary key autoincrement," +
-                " rname text)";
-        db.execSQL(query1);
+        String queryRoles = "create table Roles (roleId Integer primary key autoincrement," +
+                " roleName text)";
+        db.execSQL(queryRoles);
 
-        String query2 = "create table Avatars (avatarId Integer primary key autoincrement," +
+        String queryAvatars = "create table Avatars (avatarId Integer primary key autoincrement," +
                 " imageLink text)";
-        db.execSQL(query2);
+        db.execSQL(queryAvatars);
 
-        String query3 = "create table Users (userId Integer primary key autoincrement, " +
+        String queryUsers = "create table Users (userId Integer primary key autoincrement, " +
                 " username text, password text, avatarId Integer, roleId Integer, " +
                 " experiancePoint Integer, distanceWalked Integer)";
-        db.execSQL(query3);
+        db.execSQL(queryUsers);
+
+        String queryPlaceTypes = "create table PlaceTypes (placeTypeId Integer primary key autoincrement, " +
+                " typeName text)";
+        db.execSQL(queryPlaceTypes);
+
+        String queryPlaces = "create table Places (placeId Integer primary key autoincrement, " +
+                " placeName text, description text, imageLink text, level Integer, " +
+                " typeId Intger, coordinates text)";
+        db.execSQL(queryPlaces);
+
+        String queryUserPlaces = "create table UserPlaces (userPlaceId Integer primary key autoincrement, " +
+                " userId Integer, placeId Integer)";
+        db.execSQL(queryUserPlaces);
     }
 
     @Override
@@ -37,18 +50,31 @@ public class DBConnect extends SQLiteOpenHelper {
             System.out.println("UPGRADE DB from " + oldVersion + " to " + newVersion);
             onCreate(db);
             if (oldVersion<10){
-                String query1 = "create table Roles (roleId Integer primary key autoincrement," +
-                        " rName text)";
-                db.execSQL(query1);
+                String queryRoles = "create table Roles (roleId Integer primary key autoincrement," +
+                        " roleName text)";
+                db.execSQL(queryRoles);
 
-                String query2 = "create table Avatars (avatarId Integer primary key autoincrement," +
-                        " image text)";
-                db.execSQL(query2);
+                String queryAvatars = "create table Avatars (avatarId Integer primary key autoincrement," +
+                        " imageLink text)";
+                db.execSQL(queryAvatars);
 
-                String query3 = "create table Users (userId Integer primary key autoincrement, " +
+                String queryUsers = "create table Users (userId Integer primary key autoincrement, " +
                         " username text, password text, avatarId Integer, roleId Integer, " +
-                        " experiencePoints Integer, distanceWalked Integer)";
-                db.execSQL(query3);
+                        " experiancePoint Integer, distanceWalked Integer)";
+                db.execSQL(queryUsers);
+
+                String queryPlaceTypes = "create table PlaceTypes (placeTypeId Integer primary key autoincrement, " +
+                        " typeName text)";
+                db.execSQL(queryPlaceTypes);
+
+                String queryPlaces = "create table Places (placeId Integer primary key autoincrement, " +
+                        " placeName text, description text, imageLink text, level Integer, " +
+                        " typeId Intger, coordinates text)";
+                db.execSQL(queryPlaces);
+
+                String queryUserPlaces = "create table UserPlaces (userPlaceId Integer primary key autoincrement, " +
+                        " userId Integer, placeId Integer)";
+                db.execSQL(queryUserPlaces);
             }
         }
         catch (Exception e){e.printStackTrace();}
