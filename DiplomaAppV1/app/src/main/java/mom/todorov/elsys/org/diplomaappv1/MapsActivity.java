@@ -81,13 +81,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         marker = mMap.addMarker(mo);
+        mMap.setMyLocationEnabled(true);
     }
 
+    //TODO Check if this is needed
     @Override
     public void onLocationChanged(Location location) {
         LatLng myCoordinates = new LatLng(location.getLatitude(), location.getLongitude());
-        //marker.setPosition(myCoordinates);
-        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myCoordinates, 15));
+        marker.setPosition(myCoordinates);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myCoordinates, 15));
         mMap.setMyLocationEnabled(true);
     }
 
