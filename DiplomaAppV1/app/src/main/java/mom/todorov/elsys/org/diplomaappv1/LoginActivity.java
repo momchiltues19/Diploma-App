@@ -3,7 +3,6 @@ package mom.todorov.elsys.org.diplomaappv1;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -38,10 +37,6 @@ import java.util.List;
 
 
 import android.widget.Toast;
-
-import mom.todorov.elsys.org.diplomaappv1.R;
-import mom.todorov.elsys.org.diplomaappv1.DBConnect;
-import mom.todorov.elsys.org.diplomaappv1.User;
 
 
 import static android.Manifest.permission.READ_CONTACTS;

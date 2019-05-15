@@ -142,4 +142,18 @@ public class DBConnect extends SQLiteOpenHelper {
         }
         return myAvatar;
     }
+
+    public Place insertPlace (Place queryValues){
+        SQLiteDatabase database = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("placeName", queryValues.placeName);
+        values.put("description", queryValues.description);
+        values.put("imageLink", queryValues.imageLink);
+        values.put("level", queryValues.level);
+        values.put("typeId", queryValues.typeId);
+        values.put("coordinates", queryValues.coordinates);
+        queryValues.placeId = database.insert("Places", null, values);
+        database.close();
+        return queryValues;
+    }
 }

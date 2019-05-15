@@ -1,6 +1,6 @@
 package mom.todorov.elsys.org.diplomaappv1;
 
-class User {
+public class User {
     long userId;
     String username;
     String password;

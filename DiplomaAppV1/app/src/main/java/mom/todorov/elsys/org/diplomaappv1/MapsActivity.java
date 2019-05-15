@@ -56,6 +56,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (!isLocationEnabled())
             showAlert(1);
 
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+
         Button menuBtn = findViewById(R.id.menuBtn);
         menuBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,8 +86,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onLocationChanged(Location location) {
         LatLng myCoordinates = new LatLng(location.getLatitude(), location.getLongitude());
-        marker.setPosition(myCoordinates);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myCoordinates, 15));
+        //marker.setPosition(myCoordinates);
+        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myCoordinates, 15));
+        mMap.setMyLocationEnabled(true);
     }
 
     @Override
@@ -110,6 +122,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             return;
         }
         locationManager.requestLocationUpdates(provider, 10000, 1, this);
+        //mMap.setMyLocationEnabled(true);
     }
 
     private boolean isLocationEnabled() {
