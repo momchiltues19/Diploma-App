@@ -8,6 +8,9 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -35,20 +38,44 @@ public class MenuActivity extends Activity {
 
         //init of text
         text = findViewById(R.id.textView1);
-        text.setText(myAvatar.imageLink);
+        //text.setText(myAvatar.imageLink);
 
         //init of avatar image
         avatarImage = findViewById(R.id.avatarImage);
         avatarImage.setImageResource(R.drawable.my_image);
 
         //get image from the internet
-        new DownloadImageTask((ImageView) findViewById(R.id.avatarImage))
-                .execute("https://www.google.co.uk/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png");
+        Button netBtn = findViewById(R.id.netBtn);
+        netBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText netTxt = findViewById(R.id.netTxt);
+
+                new DownloadImageTask((ImageView) findViewById(R.id.avatarImage))
+                        .execute(netTxt.getText().toString());
+            }
+        });
+
 
         //take image from the gallery
-        Intent intent = new Intent(Intent.ACTION_PICK,
-                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, 0);
+        Button galBtn = findViewById(R.id.galBtn);
+        galBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, 0);
+            }
+        });
+
+        Button backBtn = findViewById(R.id.backBtn);
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(MenuActivity.this,MapsActivity.class);
+                MenuActivity.this.startActivity(myIntent);
+            }
+        });
     }
 
     //used for getting image from the internet
